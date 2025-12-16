@@ -7,7 +7,7 @@ ARG SUPERCRONIC_VERSION
 # renovate: datasource=github-releases depName=EnterpriseDB/system_stats
 ARG SYSTEM_STATS_EXTENSION_VERSION="3.2"
 # renovate: datasource=github-releases depName=tensorchord/VectorChord
-ARG VCHORD_EXTENSION_VERSION="0.4.3"
+ARG VCHORD_EXTENSION_VERSION="0.5.3"
 
 ENV TZ=UTC
 ENV LANG=en_US.utf8
