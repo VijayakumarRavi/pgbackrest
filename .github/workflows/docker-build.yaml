@@ -3,6 +3,10 @@ name: Build and Publish Postgres
 on:
   push:
     branches: ['master']
+    paths:
+      - Dockerfile
+      - docker-bake.hcl
+      - entrypoint.sh
   workflow_dispatch:
 
 env:
