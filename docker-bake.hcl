@@ -2,27 +2,28 @@ variable "APP" {
   default = "ghcr.io/vijayakumarravi/autopgbackrest"
 }
 
+variable "SOURCE" {
+  default = "https://github.com/VijayakumarRavi/autopgbackrest"
+}
+
 variable "SUPERCRONIC_VERSION" {
   # renovate: datasource=github-releases depName=aptible/supercronic
   default = "v0.2.36"
 }
 
-variable "SOURCE" {
-  default = "https://github.com/VijayakumarRavi/autopgbackrest"
-}
-
-variable "PG_TAGS" {
-  default = [
-    # v18
-    "18.1", "18",
-    # v17
-    "17.7", "17",
-    # v16
-    "16.11", "16",
-    # v15
-    "15.15", "15",
-    # v14
-    "14.20", "14",
+function "pg_tags" {
+  params = []
+  result = [
+    # renovate: datasource=docker depName=postgres
+    "18.3",
+    # renovate: datasource=docker depName=postgres
+    "17.9",
+    # renovate: datasource=docker depName=postgres
+    "16.13",
+    # renovate: datasource=docker depName=postgres
+    "15.17",
+    # renovate: datasource=docker depName=postgres
+    "14.22"
   ]
 }
 
@@ -31,16 +32,16 @@ group "default" {
 }
 
 target "image" {
-  name = "image-${replace(tag, ".", "-")}"
+  name     = "image-${replace(tag, ".", "-")}"
+
   matrix = {
-    tag = PG_TAGS
+    tag = pg_tags()
   }
-  
   args = {
     POSTGRES_TAG = "${tag}"
     SUPERCRONIC_VERSION = "${SUPERCRONIC_VERSION}"
   }
-  
+
   labels = {
     "org.opencontainers.image.source" = "${SOURCE}"
     "org.opencontainers.image.base.name" = "docker.io/library/postgres:${tag}"
@@ -48,10 +49,16 @@ target "image" {
     "org.opencontainers.image.description" = "Automated pgBackRest Docker image for PostgreSQL ${tag}"
   }
 
-  tags = ["${APP}:${tag}"]
-  platforms = [
-    "linux/amd64",
-    "linux/arm64",
-    "linux/arm/v7"
+  tags = tag == pg_tags()[0] ? [
+    "${APP}:${tag}",
+    "${APP}:${split(".", tag)[0]}",
+    "${APP}:latest"
+  ] : [
+    "${APP}:${tag}",
+    "${APP}:${split(".", tag)[0]}"
   ]
+
+  cache-from = ["type=registry,ref=${APP}:buildcache"]
+  cache-to   = ["type=registry,ref=${APP}:buildcache,mode=max,oci-mediatypes=true"]
+  platforms  = ["linux/amd64", "linux/arm64", "linux/arm/v7"]
 }

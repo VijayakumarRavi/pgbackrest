@@ -1,34 +1,68 @@
 {
-  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-  extends: [
-    'config:recommended',
-    'docker:enableMajor',
-    ':automergeBranch',
-    ':disableRateLimiting',
-    ':dependencyDashboard',
-    ':semanticCommits',
-    ':skipStatusChecks',
-    ':timezone(Asia/Kolkata)',
-    'github>VijayakumarRavi/GitOps//.github/renovate/allowedVersions.json5',
-    'github>VijayakumarRavi/GitOps//.github/renovate/autoMerge.json5',
-    'github>VijayakumarRavi/GitOps//.github/renovate/clusters.json5',
-    'github>VijayakumarRavi/GitOps//.github/renovate/commitMessage.json5',
-    'github>VijayakumarRavi/GitOps//.github/renovate/customManagers.json5',
-    'github>VijayakumarRavi/GitOps//.github/renovate/grafanaDashboards.json5',
-    'github>VijayakumarRavi/GitOps//.github/renovate/groups.json5',
-    'github>VijayakumarRavi/GitOps//.github/renovate/labels.json5',
-    'github>VijayakumarRavi/GitOps//.github/renovate/packageRules.json5',
-    'github>VijayakumarRavi/GitOps//.github/renovate/semanticCommits.json5',
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:enableMajor",
+    ":automergeBranch",
+    ":disableRateLimiting",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":skipStatusChecks",
+    ":timezone(Asia/Kolkata)"
   ],
-  dependencyDashboardTitle: 'Renovate Dashboard 🤖',
-  suppressNotifications: [
-    'prEditedNotification',
-    'prIgnoreNotification',
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "suppressNotifications": [
+    "prEditedNotification",
+    "prIgnoreNotification"
   ],
-  dockerfile: {
+  "dockerfile": {
     "managerFilePatterns": [
       "/(^|/|\\.)([Dd]ocker|[Cc]ontainer)file$/",
       "/(^|/)([Dd]ocker|[Cc]ontainer)file[^/]*$/"
     ]
-  }
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "^docker-bake\\.hcl$"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\s]+)\\s+\"(?<currentValue>[^\"]+)\"",
+        "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\s]+)\\s+default\\s*=\\s*\"(?<currentValue>[^\"]+)\""
+      ]
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["postgres"],
+      "matchCurrentVersion": "/^18\\./",
+      "allowedVersions": "18.x"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["postgres"],
+      "matchCurrentVersion": "/^17\\./",
+      "allowedVersions": "17.x"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["postgres"],
+      "matchCurrentVersion": "/^16\\./",
+      "allowedVersions": "16.x"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["postgres"],
+      "matchCurrentVersion": "/^15\\./",
+      "allowedVersions": "15.x"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["postgres"],
+      "matchCurrentVersion": "/^14\\./",
+      "allowedVersions": "14.x"
+    }
+  ]
 }
