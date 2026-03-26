@@ -1,68 +1,88 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    "docker:enableMajor",
-    ":automergeBranch",
-    ":disableRateLimiting",
-    ":dependencyDashboard",
-    ":semanticCommits",
-    ":skipStatusChecks",
-    ":timezone(Asia/Kolkata)"
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
+    'docker:enableMajor',
+    ':automergeBranch',
+    ':disableRateLimiting',
+    ':dependencyDashboard',
+    ':semanticCommits',
+    ':skipStatusChecks',
+    ':timezone(Asia/Kolkata)',
   ],
-  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "suppressNotifications": [
-    "prEditedNotification",
-    "prIgnoreNotification"
+  dependencyDashboardTitle: 'Renovate Dashboard 🤖',
+  suppressNotifications: [
+    'prEditedNotification',
+    'prIgnoreNotification',
   ],
-  "dockerfile": {
-    "managerFilePatterns": [
-      "/(^|/|\\.)([Dd]ocker|[Cc]ontainer)file$/",
-      "/(^|/)([Dd]ocker|[Cc]ontainer)file[^/]*$/"
-    ]
+  dockerfile: {
+    managerFilePatterns: [
+      '/(^|/|\\.)([Dd]ocker|[Cc]ontainer)file$/',
+      '/(^|/)([Dd]ocker|[Cc]ontainer)file[^/]*$/',
+    ],
   },
-  "customManagers": [
+  customManagers: [
     {
-      "customType": "regex",
-      "fileMatch": [
-        "^docker-bake\\.hcl$"
+      customType: 'regex',
+      managerFilePatterns: [
+        '/^docker-bake\\.hcl$/',
       ],
-      "matchStrings": [
-        "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\s]+)\\s+\"(?<currentValue>[^\"]+)\"",
-        "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\s]+)\\s+default\\s*=\\s*\"(?<currentValue>[^\"]+)\""
-      ]
-    }
+      matchStrings: [
+        '# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\s]+)\\s+"(?<currentValue>[^"]+)"',
+        '# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>[^\\s]+)\\s+default\\s*=\\s*"(?<currentValue>[^"]+)"',
+      ],
+    },
   ],
-  "packageRules": [
+  packageRules: [
     {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["postgres"],
-      "matchCurrentVersion": "/^18\\./",
-      "allowedVersions": "18.x"
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'postgres',
+      ],
+      matchCurrentVersion: '/^18\\./',
+      allowedVersions: '18.x',
     },
     {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["postgres"],
-      "matchCurrentVersion": "/^17\\./",
-      "allowedVersions": "17.x"
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'postgres',
+      ],
+      matchCurrentVersion: '/^17\\./',
+      allowedVersions: '17.x',
     },
     {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["postgres"],
-      "matchCurrentVersion": "/^16\\./",
-      "allowedVersions": "16.x"
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'postgres',
+      ],
+      matchCurrentVersion: '/^16\\./',
+      allowedVersions: '16.x',
     },
     {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["postgres"],
-      "matchCurrentVersion": "/^15\\./",
-      "allowedVersions": "15.x"
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'postgres',
+      ],
+      matchCurrentVersion: '/^15\\./',
+      allowedVersions: '15.x',
     },
     {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["postgres"],
-      "matchCurrentVersion": "/^14\\./",
-      "allowedVersions": "14.x"
-    }
-  ]
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'postgres',
+      ],
+      matchCurrentVersion: '/^14\\./',
+      allowedVersions: '14.x',
+    },
+  ],
 }
